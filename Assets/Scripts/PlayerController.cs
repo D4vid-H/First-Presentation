@@ -5,17 +5,21 @@ using Cursor = UnityEngine.Cursor;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Bullets m_bulletToShoot;
+    [SerializeField] private Transform m_shootingPoint;
+    [SerializeField] private Transform m_bulletParent;
+
     [SerializeField] private float m_horizontal;
     [SerializeField] private float m_vertical;
     [SerializeField] private float m_rotationSpeed;
-    [SerializeField] private float speed;
-    [SerializeField] private Animator anim;
+    [SerializeField] private float m_speed;
+    [SerializeField] private Animator m_anim;
     private float speedRun;
 
     // Start is called before the first frame update
     private void Awake()
     {
-        speedRun = speed;
+        speedRun = m_speed;
     }
 
     void Start()
@@ -28,16 +32,16 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer(GetMovementInput());
         Rotate(GetRotationInput());
+        if (Input.GetButton("Fire1"))
+        {
+            ShootGun();
+        }
     }
 
     private Vector3 GetMovementInput()
     {
         m_horizontal = Input.GetAxis("Horizontal");
-        m_vertical = Input.GetAxis("Vertical");
-        //if (Input.GetKey(KeyCode.LeftControl))
-        //    {
-        //    return new Vector3(m_horizontal, 0, m_vertical).normalized;
-        //}
+        m_vertical = Input.GetAxis("Vertical");        
         return new Vector3(m_horizontal, 0, m_vertical).normalized;
     }
 
@@ -45,18 +49,18 @@ public class PlayerController : MonoBehaviour
     {
         var transform1 = transform;
         transform1.position += (p_inputMovement.z * transform1.forward + p_inputMovement.x * transform1.right) *
-                               (speed * Time.deltaTime);
-        anim.SetFloat("WalkFB", p_inputMovement.z);
-        anim.SetFloat("WalkLR", p_inputMovement.x);
-        anim.SetBool("RunF", Input.GetKey(KeyCode.LeftShift));
-        anim.SetBool("IdleCro", Input.GetKey(KeyCode.LeftControl));
+                               (m_speed * Time.deltaTime);
+        m_anim.SetFloat("WalkFB", p_inputMovement.z);
+        m_anim.SetFloat("WalkLR", p_inputMovement.x);
+        m_anim.SetBool("RunF", Input.GetKey(KeyCode.LeftShift));
+        m_anim.SetBool("IdleCro", Input.GetKey(KeyCode.LeftControl));
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            speed = 5f;
+            m_speed = 5f;
         }
         else if (!Input.GetKey(KeyCode.LeftShift))
         {
-            speed = speedRun;
+            m_speed = speedRun;
         }
     }
     private void Rotate(Vector2 p_scrollDelta)
@@ -76,4 +80,11 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = !hasFocus;
         Cursor.lockState = hasFocus ? CursorLockMode.None : CursorLockMode.Confined;
     }
+
+    private void ShootGun()
+    {
+        m_anim.SetTrigger("Fire");
+        Instantiate(m_bulletToShoot, m_shootingPoint.position, Quaternion.Euler(90f, 0f, 0f), m_bulletParent);
+    }
+
 }
