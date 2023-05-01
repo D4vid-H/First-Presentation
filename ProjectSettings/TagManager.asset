@@ -9,6 +9,7 @@ TagManager:
   - CamAisle
   - CamRoom
   - FxTemporaire
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -16,12 +17,12 @@ TagManager:
   - 
   - Water
   - UI
+  - Player
+  - Enemys
+  - 
+  - 
+  - 
   - Environment
-  - 
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 

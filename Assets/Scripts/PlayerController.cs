@@ -5,7 +5,7 @@ using Cursor = UnityEngine.Cursor;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Bullets m_bulletToShoot;
+    [SerializeField] private BulletPlayer m_bulletToShoot;
     [SerializeField] private Transform m_shootingPoint;
     [SerializeField] private Transform m_bulletParent;
 
@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_vertical;
     [SerializeField] private float m_rotationSpeed;
     [SerializeField] private float m_speed;
+    [SerializeField] private float m_healtPlayer;
     [SerializeField] private Animator m_anim;
     private float speedRun;
 
@@ -32,9 +33,13 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer(GetMovementInput());
         Rotate(GetRotationInput());
-        if (Input.GetButton("Fire1"))
+        if (Input.GetMouseButton(0))
         {
             ShootGun();
+        }
+        if(m_healtPlayer <= 0)
+        {
+            Debug.Log("Player muerto");
         }
     }
 
@@ -85,6 +90,11 @@ public class PlayerController : MonoBehaviour
     {
         m_anim.SetTrigger("Fire");
         Instantiate(m_bulletToShoot, m_shootingPoint.position, Quaternion.Euler(90f, 0f, 0f), m_bulletParent);
+    }
+
+    public void HealtPlayer(float p_danoEnemy)
+    {
+        m_healtPlayer -= p_danoEnemy;
     }
 
 }
