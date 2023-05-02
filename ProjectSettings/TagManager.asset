@@ -10,6 +10,7 @@ TagManager:
   - CamRoom
   - FxTemporaire
   - Enemy
+  - CamAisleTrap
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - UI
   - Player
   - Enemys
-  - 
+  - Bullets
   - 
   - 
   - Environment

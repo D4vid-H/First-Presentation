@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         }
         if(m_healtPlayer <= 0)
         {
-            Debug.Log("Player muerto");
+            m_anim.SetBool("Die", true);
         }
     }
 

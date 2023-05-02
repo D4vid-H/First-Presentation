@@ -34,7 +34,7 @@ public class Doors : MonoBehaviour
         m_IsDoor = true;
         m_doorSideLeft.GetComponent<BoxCollider>().enabled = false;
         other.GetComponentInChildren<CinemachineVirtualCamera>().enabled = true;
-        m_camRoom.GetComponent<CinemachineFreeLook>().enabled = false;
+        m_camRoom.GetComponentInChildren<CinemachineFreeLook>().enabled = false;
     }
 
     private Boolean OpenDoor()

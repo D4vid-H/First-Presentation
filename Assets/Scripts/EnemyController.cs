@@ -36,7 +36,7 @@ public class EnemyController : MonoBehaviour
         FollowTarget();
         if(m_currentTime <= 0 && m_isShoot)
         {
-            StartCoroutine(ShootDelay());
+            if (m_healtEnemy > 0) StartCoroutine(ShootDelay());
         }
         if(m_healtEnemy <= 0)
         {

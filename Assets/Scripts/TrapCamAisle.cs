@@ -17,30 +17,44 @@ public class TrapCamAisle : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player" && gameObject.name == "TrapCamAisleL")
         {
-            if(!m_flag)
+            if (!m_flag)
             {
                 Debug.Log("entre al IF");
-                m_camAisle.GetComponent<CinemachineFreeLook>().enabled = !m_flag;
+                m_camAisle.GetComponentInChildren<CinemachineFreeLook>().enabled = !m_flag;
                 other.GetComponentInChildren<CinemachineVirtualCamera>().enabled = m_flag;
-                //transform.position = new Vector3(17.38f, 0.58f, 25.1f);
-                //transform.rotation = Quaternion.Euler(0f, 90f, 0f);
                 m_flag = true;
             }
             else
             {
                 Debug.Log("entre al ELSE");
                 m_flag = true;
-                m_camAisle.GetComponent<CinemachineFreeLook>().enabled = !m_flag;
+                m_camAisle.GetComponentInChildren<CinemachineFreeLook>().enabled = !m_flag;
                 other.GetComponentInChildren<CinemachineVirtualCamera>().enabled = m_flag;
                 m_flag = false;
             }
         }
-        
+
+        if (other.tag == "Player" && gameObject.name == "TrapCamAisleR")
+        {
+            if (m_flag)
+            {
+                Debug.Log("entre al IF");
+                m_camAisle.GetComponentInChildren<CinemachineFreeLook>().enabled = m_flag;
+                other.GetComponentInChildren<CinemachineVirtualCamera>().enabled = !m_flag;
+                m_flag = false;
+            }
+            else
+            {
+                Debug.Log("entre al ELSE");
+                m_camAisle.GetComponentInChildren<CinemachineFreeLook>().enabled = m_flag;
+                other.GetComponentInChildren<CinemachineVirtualCamera>().enabled = !m_flag;
+                m_flag = true;
+            }
+        }
+
     }
-
-
 
 
 }
