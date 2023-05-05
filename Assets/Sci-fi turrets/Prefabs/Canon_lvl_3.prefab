@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 852043975}
-  m_Layer: 0
-  m_Name: shootpoint_L
+  m_Layer: 7
+  m_Name: shootpoint_LUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,8 +40,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1007239166}
-  m_Layer: 0
-  m_Name: shootpoint_R
+  m_Layer: 7
+  m_Name: shootpoint_RUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,6 +62,68 @@ Transform:
   m_Father: {fileID: 4000011911808112}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1415054764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1415054765}
+  m_Layer: 7
+  m_Name: shootpoint_LDn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1415054765
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415054764}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.018, y: -0.044, z: 0.625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4000011472825424}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2145475054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2145475055}
+  m_Layer: 7
+  m_Name: shootpoint_RDn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2145475055
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145475054}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.0453, z: 0.633}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4000011911808112}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1000012105359850
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,10 +136,11 @@ GameObject:
   - component: {fileID: 33000014089371946}
   - component: {fileID: 23000010303888186}
   - component: {fileID: 95000013924364946}
-  - component: {fileID: 1494457289}
-  m_Layer: 0
+  - component: {fileID: 1494457286}
+  - component: {fileID: 1494457291}
+  m_Layer: 7
   m_Name: Canon_lvl_3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,7 +219,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012105359850}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 95a1027eb1d58b647aced627e637172a, type: 3}
   m_Controller: {fileID: 9100000, guid: 391b526eedfe88d46acac2b5c474deac, type: 2}
   m_CullingMode: 0
@@ -169,24 +232,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1494457289
+--- !u!65 &1494457286
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012105359850}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.97792244, y: 1.6155005, z: 0.75434506}
+  m_Center: {x: -0.0067892075, y: 0.17174545, z: 0.17681319}
+--- !u!114 &1494457291
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012105359850}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cab35ffc9e39e847a9a66fc68194e71, type: 3}
+  m_Script: {fileID: 11500000, guid: ed9362d8266c8e54096ddde7a1b691d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_target: {fileID: 0}
   m_bulletToShoot: {fileID: -7886236556087848943, guid: 1e15d82f04b99aa4c9b28e87530510d6,
     type: 3}
-  m_shootingPointL: {fileID: 852043975}
-  m_shootingPointR: {fileID: 1007239166}
+  m_shootingPointLUp: {fileID: 852043975}
+  m_shootingPointLDn: {fileID: 1415054765}
+  m_shootingPointRUp: {fileID: 1007239166}
+  m_shootingPointRDn: {fileID: 2145475055}
   m_bulletParentL: {fileID: 4000011472825424}
   m_bulletParentR: {fileID: 4000011911808112}
+  m_delayShootBullets: 0.5
+  m_healtEnemy: 100
 --- !u!1 &1000012389614952
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +279,7 @@ GameObject:
   - component: {fileID: 4000011911808112}
   - component: {fileID: 33000012567130406}
   - component: {fileID: 23000010082842008}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: gunpoint_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,6 +299,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1007239166}
+  - {fileID: 2145475055}
   m_Father: {fileID: 4000013643732794}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -282,7 +364,7 @@ GameObject:
   - component: {fileID: 4000011472825424}
   - component: {fileID: 33000014023723060}
   - component: {fileID: 23000012712600670}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: gunpoint_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,6 +384,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 852043975}
+  - {fileID: 1415054765}
   m_Father: {fileID: 4000013643732794}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -366,7 +449,7 @@ GameObject:
   - component: {fileID: 4000013643732794}
   - component: {fileID: 33000010505800892}
   - component: {fileID: 23000012824091326}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: canon_lvl_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -7,13 +7,11 @@ public class BulletPlayer : MonoBehaviour
     [SerializeField] private float m_speed;
     [SerializeField] private float m_damage;
     [SerializeField] private float m_initialTime = 3f;
-    [SerializeField] GameObject m_hitDano;
     private float m_currentTime;
     // Start is called before the first frame update
     private void Awake()
     {
         m_currentTime = m_initialTime;
-        m_hitDano = GameObject.Find("Canon_lvl_3");
     }
     void Start()
     {
@@ -36,10 +34,19 @@ public class BulletPlayer : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            if(m_hitDano.name == "Canon_lvl_3")
+            if(collision.gameObject.name == "EnemyOne")
             {
-                Debug.Log(collision.gameObject.name);
-                m_hitDano.GetComponent<EnemyController>().HealtEnemy(m_damage);
+                collision.gameObject.GetComponent<EnemyOne>().SetHealtEnemy(m_damage);
+                Destroy(gameObject);
+            }
+            else if (collision.gameObject.name == "EnemyTwo")
+            {
+                collision.gameObject.GetComponent<EnemyTwo>().SetHealtEnemy(m_damage);
+                Destroy(gameObject);
+            }
+            else if (collision.gameObject.name == "EnemyThree")
+            {
+                collision.gameObject.GetComponent<EnemyThree>().SetHealtEnemy(m_damage);
                 Destroy(gameObject);
             }
         }

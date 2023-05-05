@@ -5,6 +5,7 @@ using Cursor = UnityEngine.Cursor;
 
 public class PlayerController : MonoBehaviour
 {
+    
     [SerializeField] private BulletPlayer m_bulletToShoot;
     [SerializeField] private Transform m_shootingPoint;
     [SerializeField] private Transform m_bulletParent;
@@ -16,11 +17,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_healtPlayer;
     [SerializeField] private Animator m_anim;
     private float speedRun;
-
+    private AudioSource m_Sound;
     // Start is called before the first frame update
     private void Awake()
     {
         speedRun = m_speed;
+        m_Sound = GetComponentInChildren<AudioSource>();
     }
 
     void Start()
@@ -33,6 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer(GetMovementInput());
         Rotate(GetRotationInput());
+        WalkSond();
         if (Input.GetMouseButton(0))
         {
             ShootGun();
@@ -46,7 +49,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 GetMovementInput()
     {
         m_horizontal = Input.GetAxis("Horizontal");
-        m_vertical = Input.GetAxis("Vertical");        
+        m_vertical = Input.GetAxis("Vertical");
         return new Vector3(m_horizontal, 0, m_vertical).normalized;
     }
 
@@ -59,11 +62,12 @@ public class PlayerController : MonoBehaviour
         m_anim.SetFloat("WalkLR", p_inputMovement.x);
         m_anim.SetBool("RunF", Input.GetKey(KeyCode.LeftShift));
         m_anim.SetBool("IdleCro", Input.GetKey(KeyCode.LeftControl));
+        
         if (Input.GetKey(KeyCode.LeftShift))
         {
             m_speed = 5f;
         }
-        else if (!Input.GetKey(KeyCode.LeftShift))
+        else
         {
             m_speed = speedRun;
         }
@@ -95,6 +99,26 @@ public class PlayerController : MonoBehaviour
     public void HealtPlayer(float p_danoEnemy)
     {
         m_healtPlayer -= p_danoEnemy;
+    }
+    private void WalkSond()
+    {
+        if (Input.GetButtonDown("Horizontal"))
+        {
+            m_Sound.Play();
+        }
+        if (Input.GetButtonDown("Vertical"))
+        {
+            m_Sound.Play();
+        }
+        if (Input.GetButtonUp("Horizontal"))
+        {
+            m_Sound.Pause();
+        }
+        if (Input.GetButtonUp("Vertical"))
+        {
+            m_Sound.Pause();
+        }
+
     }
 
 }

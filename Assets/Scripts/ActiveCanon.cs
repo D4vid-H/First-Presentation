@@ -5,21 +5,18 @@ using UnityEngine;
 
 public class ActiveCanon : MonoBehaviour
 {
-    [SerializeField] GameObject[] m_canonEnemyActive;
+    [SerializeField] GameObject m_canonEnemyActive;
 
     private void Awake()
     {
-        m_canonEnemyActive = GameObject.FindGameObjectsWithTag("Enemy");
+        m_canonEnemyActive = GameObject.FindGameObjectWithTag("EnemyController");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        for(int i =0;  i<m_canonEnemyActive.Length; i++)
+        if (other.gameObject.tag == "Player")
         {
-            if (m_canonEnemyActive[i].name == "Canon_lvl_3")
-            {
-                m_canonEnemyActive[i].GetComponent<EnemyController>().IsActiveEnemy(true);
-            }
+            m_canonEnemyActive.GetComponent<EnemyController>().IsActive(true);
         }
     }
 
