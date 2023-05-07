@@ -16,11 +16,6 @@ public class Bullets : MonoBehaviour
         m_currentTime = m_initialTime;
         m_hitPlayer = GameObject.FindGameObjectWithTag("Player");
     }
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {

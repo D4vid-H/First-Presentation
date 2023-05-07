@@ -13,11 +13,6 @@ public class BulletPlayer : MonoBehaviour
     {
         m_currentTime = m_initialTime;
     }
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -36,17 +31,21 @@ public class BulletPlayer : MonoBehaviour
         {
             if(collision.gameObject.name == "EnemyOne")
             {
-                collision.gameObject.GetComponent<EnemyOne>().SetHealtEnemy(m_damage);
+                collision.gameObject.GetComponent<EnemyGunOne>().SetHealtEnemy(m_damage);
+                GameManager.Instance.AddScoreplayer(HitEnemy());
                 Destroy(gameObject);
             }
             else if (collision.gameObject.name == "EnemyTwo")
             {
-                collision.gameObject.GetComponent<EnemyTwo>().SetHealtEnemy(m_damage);
+                collision.gameObject.GetComponent<EnemyGunTwo>().SetHealtEnemy(m_damage);
+                GameManager.Instance.AddScoreplayer(HitEnemy());
                 Destroy(gameObject);
             }
             else if (collision.gameObject.name == "EnemyThree")
             {
-                collision.gameObject.GetComponent<EnemyThree>().SetHealtEnemy(m_damage);
+                collision.gameObject.GetComponent<EnemyGunThree>().SetHealtEnemy(m_damage);
+                GameManager.Instance.AddScoreplayer(HitEnemy());
+                Debug.Log(GameManager.Instance.GetScore());
                 Destroy(gameObject);
             }
         }
@@ -54,6 +53,11 @@ public class BulletPlayer : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    private int HitEnemy()
+    {
+        int l_hit = 7;
+        return l_hit;
     }
 
 }

@@ -17,11 +17,8 @@ public class ActiveCanon : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             m_canonEnemyActive.GetComponent<EnemyController>().IsActive(true);
+            Destroy(gameObject);
         }
     }
-
-
-
-
 
 }

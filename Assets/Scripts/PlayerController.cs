@@ -18,18 +18,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator m_anim;
     private float speedRun;
     private AudioSource m_Sound;
+    private Light m_lightColor;
     // Start is called before the first frame update
     private void Awake()
     {
         speedRun = m_speed;
         m_Sound = GetComponentInChildren<AudioSource>();
     }
-
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -44,15 +39,14 @@ public class PlayerController : MonoBehaviour
         {
             m_anim.SetBool("Die", true);
         }
+        LightPower();
     }
-
     private Vector3 GetMovementInput()
     {
         m_horizontal = Input.GetAxis("Horizontal");
         m_vertical = Input.GetAxis("Vertical");
         return new Vector3(m_horizontal, 0, m_vertical).normalized;
     }
-
     private void MovePlayer(Vector3 p_inputMovement)
     {
         var transform1 = transform;
@@ -76,26 +70,22 @@ public class PlayerController : MonoBehaviour
     {
         transform.Rotate(Vector3.up, p_scrollDelta.x * m_rotationSpeed * Time.deltaTime, Space.Self);
     }
-
     private Vector2 GetRotationInput()
     {
         var l_mouseX = Input.GetAxis("Mouse X");
         var l_mouseY = Input.GetAxis("Mouse Y");
         return new Vector2(l_mouseX, l_mouseY);
     }
-
     private void OnApplicationFocus(bool hasFocus)
     {
         Cursor.visible = !hasFocus;
         Cursor.lockState = hasFocus ? CursorLockMode.None : CursorLockMode.Confined;
     }
-
     private void ShootGun()
     {
         m_anim.SetTrigger("Fire");
         Instantiate(m_bulletToShoot, m_shootingPoint.position, Quaternion.Euler(90f, 0f, 0f), m_bulletParent);
     }
-
     public void HealtPlayer(float p_danoEnemy)
     {
         m_healtPlayer -= p_danoEnemy;
@@ -118,6 +108,36 @@ public class PlayerController : MonoBehaviour
         {
             m_Sound.Pause();
         }
+    }
+    private void LightPower()
+    {
+        m_lightColor = gameObject.GetComponentInChildren<Light>();
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("Entre al tocar y soltar la L");
+            if(m_lightColor.color == Color.red)
+            {
+                m_lightColor.color = Color.green;
+            }
+            else if (m_lightColor.color == Color.green)
+            {
+                m_lightColor.color = Color.blue;
+            }
+            else if (m_lightColor.color == Color.blue)
+            {
+                m_lightColor.color = Color.white;
+            }
+            else if (m_lightColor.color == Color.white)
+            {
+                m_lightColor.color = Color.cyan;
+            }
+            else if (m_lightColor.color == Color.cyan)
+            {
+                m_lightColor.color = Color.red;
+            }            
+        }
+
 
     }
 
