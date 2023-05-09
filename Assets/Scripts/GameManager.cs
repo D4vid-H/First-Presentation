@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private ScoreManager m_scoreManager;
+    [SerializeField] private PlayerManager m_playerManager;
 
     public static GameManager Instance;
 
@@ -29,6 +30,16 @@ public class GameManager : MonoBehaviour
     public int GetScore()
     {
         return m_scoreManager.GetScore();
+    }
+
+    public void AddPlayerData(PlayerData p_platerData)
+    {
+        m_playerManager.AddPlayerInfo(p_platerData);
+    }
+
+    public PlayerData GetPlayerInfo()
+    {
+        return m_playerManager.GetPlayerInfo();
     }
 
 }

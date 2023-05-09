@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows;
 using Cursor = UnityEngine.Cursor;
+using Input = UnityEngine.Input;
 
 public class PlayerController : MonoBehaviour
 {
-    
+    [SerializeField] private string m_namePlayer;
+    [SerializeField] private string m_userPlayer;
+    [SerializeField] private int m_agePlayer;
+
     [SerializeField] private BulletPlayer m_bulletToShoot;
     [SerializeField] private Transform m_shootingPoint;
     [SerializeField] private Transform m_bulletParent;
-
     [SerializeField] private float m_horizontal;
     [SerializeField] private float m_vertical;
     [SerializeField] private float m_rotationSpeed;
@@ -19,6 +23,9 @@ public class PlayerController : MonoBehaviour
     private float speedRun;
     private AudioSource m_Sound;
     private Light m_lightColor;
+    [SerializeField] private float m_jumpForce;
+    private Dictionary <string, PlayerData> m_playerDirectory = new Dictionary<string, PlayerData>();
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -30,16 +37,11 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer(GetMovementInput());
         Rotate(GetRotationInput());
-        WalkSond();
-        if (Input.GetMouseButton(0))
-        {
-            ShootGun();
-        }
-        if(m_healtPlayer <= 0)
-        {
-            m_anim.SetBool("Die", true);
-        }
+        WalkSound();
+        ShootGun();
+        PlayerDead();
         LightPower();
+        JumpPlayer();
     }
     private Vector3 GetMovementInput()
     {
@@ -83,14 +85,24 @@ public class PlayerController : MonoBehaviour
     }
     private void ShootGun()
     {
-        m_anim.SetTrigger("Fire");
-        Instantiate(m_bulletToShoot, m_shootingPoint.position, Quaternion.Euler(90f, 0f, 0f), m_bulletParent);
+        if (Input.GetMouseButton(0))
+        {
+            m_anim.SetTrigger("Fire");
+            Instantiate(m_bulletToShoot, m_shootingPoint.position, Quaternion.Euler(90f, 0f, 0f), m_bulletParent);
+        }
     }
     public void HealtPlayer(float p_danoEnemy)
     {
         m_healtPlayer -= p_danoEnemy;
     }
-    private void WalkSond()
+    private void PlayerDead()
+    {
+        if (m_healtPlayer <= 0)
+        {
+            m_anim.SetBool("Die", true);            
+        }
+    }
+    private void WalkSound()
     {
         if (Input.GetButtonDown("Horizontal"))
         {
@@ -137,8 +149,20 @@ public class PlayerController : MonoBehaviour
                 m_lightColor.color = Color.red;
             }            
         }
-
-
     }
-
+    private void JumpPlayer()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            m_anim.SetBool("Jump", true);
+            if (gameObject.TryGetComponent<Rigidbody>(out Rigidbody l_rB))
+            {
+                l_rB.AddForceAtPosition(transform.up * m_jumpForce, l_rB.centerOfMass, ForceMode.Impulse);                
+            }
+        }
+        if(Physics.Raycast(transform.position, new Vector3(0,-1f,0)))
+        {            
+            m_anim.SetBool("Jump", false);
+        }
+    }
 }
