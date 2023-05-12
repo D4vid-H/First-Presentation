@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private string m_namePlayer;
     [SerializeField] private string m_userPlayer;
     [SerializeField] private int m_agePlayer;
-
     [SerializeField] private BulletPlayer m_bulletToShoot;
     [SerializeField] private Transform m_shootingPoint;
     [SerializeField] private Transform m_bulletParent;
@@ -165,4 +164,5 @@ public class PlayerController : MonoBehaviour
             m_anim.SetBool("Jump", false);
         }
     }
+    
 }
