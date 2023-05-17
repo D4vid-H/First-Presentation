@@ -17,19 +17,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_vertical;
     [SerializeField] private float m_rotationSpeed;
     [SerializeField] private float m_speed;
-    [SerializeField] private float m_healtPlayer;
+    [SerializeField] private float m_timeToShoot;
+    [SerializeField] private float m_healtPlayerFull;
+    [SerializeField] private float m_currentHealtPlayer;
     [SerializeField] private Animator m_anim;
+    [SerializeField] private float m_jumpForce;    
+    [SerializeField] private int m_ammunitionClip;
     private float speedRun;
     private AudioSource m_Sound;
     private Light m_lightColor;
-    [SerializeField] private float m_jumpForce;
     private Dictionary <string, PlayerData> m_playerDirectory = new Dictionary<string, PlayerData>();
+    private float m_currentTimeToShoot;
 
     // Start is called before the first frame update
     private void Awake()
     {
         speedRun = m_speed;
         m_Sound = GetComponentInChildren<AudioSource>();
+        m_currentHealtPlayer = m_healtPlayerFull;
+        m_currentTimeToShoot = m_timeToShoot;
     }
     // Update is called once per frame
     void Update()
@@ -40,7 +46,7 @@ public class PlayerController : MonoBehaviour
         ShootGun();
         PlayerDead();
         LightPower();
-        JumpPlayer();
+        JumpPlayer();        
     }
     private Vector3 GetMovementInput()
     {
@@ -48,6 +54,7 @@ public class PlayerController : MonoBehaviour
         m_vertical = Input.GetAxis("Vertical");
         return new Vector3(m_horizontal, 0, m_vertical).normalized;
     }
+
     private void MovePlayer(Vector3 p_inputMovement)
     {
         var transform1 = transform;
@@ -67,40 +74,66 @@ public class PlayerController : MonoBehaviour
             m_speed = speedRun;
         }
     }
+
     private void Rotate(Vector2 p_scrollDelta)
     {
         transform.Rotate(Vector3.up, p_scrollDelta.x * m_rotationSpeed * Time.deltaTime, Space.Self);
     }
+
     private Vector2 GetRotationInput()
     {
         var l_mouseX = Input.GetAxis("Mouse X");
         var l_mouseY = Input.GetAxis("Mouse Y");
         return new Vector2(l_mouseX, l_mouseY);
     }
+
     private void OnApplicationFocus(bool hasFocus)
     {
         Cursor.visible = !hasFocus;
         Cursor.lockState = hasFocus ? CursorLockMode.None : CursorLockMode.Confined;
     }
+
     private void ShootGun()
     {
-        if (Input.GetMouseButton(0))
-        {
-            m_anim.SetTrigger("Fire");
-            Instantiate(m_bulletToShoot, m_shootingPoint.position, Quaternion.Euler(90f, 0f, 0f), m_bulletParent);
+        m_timeToShoot -= Time.deltaTime;
+
+        if (Input.GetMouseButton(0) && m_timeToShoot <=0)
+        {             
+            if(m_ammunitionClip > 0)
+            {
+                m_anim.SetTrigger("Fire");
+                Instantiate(m_bulletToShoot, m_shootingPoint.position, Quaternion.Euler(90f, 0f, 0f), m_bulletParent);
+                m_ammunitionClip--;
+            }
+            m_currentTimeToShoot = m_timeToShoot;
         }
     }
+
+    public int GetCurrentAmmunition()
+    {
+        return m_ammunitionClip;
+    }
+
     public void HealtPlayer(float p_danoEnemy)
     {
-        m_healtPlayer -= p_danoEnemy;
+        m_currentHealtPlayer -= p_danoEnemy;       
     }
+
+    public float CurrentHealtPlayer()
+    {
+        float l_currentHealtToCanva;
+        l_currentHealtToCanva = m_currentHealtPlayer / m_healtPlayerFull;
+        return l_currentHealtToCanva;
+    }
+
     private void PlayerDead()
     {
-        if (m_healtPlayer <= 0)
+        if (m_currentHealtPlayer <= 0)
         {
             m_anim.SetBool("Die", true);            
         }
     }
+
     private void WalkSound()
     {
         if (Input.GetButtonDown("Horizontal"))
@@ -120,6 +153,7 @@ public class PlayerController : MonoBehaviour
             m_Sound.Pause();
         }
     }
+
     private void LightPower()
     {
         m_lightColor = gameObject.GetComponentInChildren<Light>();
@@ -149,6 +183,7 @@ public class PlayerController : MonoBehaviour
             }            
         }
     }
+
     private void JumpPlayer()
     {
         if (Input.GetKeyDown(KeyCode.Space))

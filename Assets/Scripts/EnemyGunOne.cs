@@ -33,14 +33,13 @@ public class EnemyGunOne : MonoBehaviour
             Debug.Log("Enemy ONE Dead");
             gameObject.GetComponent<Animator>().enabled = false;
             GameManager.Instance.AddScoreplayer(EnemyDeadScore());
-            Debug.Log(GameManager.Instance.GetScore());
             m_isDea = false;
         }
     }
     IEnumerator ShootDelay()
     {
         //Instanciar(class in prefab, position to Shoot, direccion to shoot, GO parent to shoot)
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.5f);
         Instantiate(m_bulletToShoot, m_shootingPoint.position, Quaternion.Euler(90f, 0f, 0f), m_bulletParent);
     }
     private void FollowTarget()

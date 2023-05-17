@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private ScoreManager m_scoreManager;
     [SerializeField] private PlayerManager m_playerManager;
+    [SerializeField] private LevelSceneManager m_sceneManager;
 
     public static GameManager Instance;
 
@@ -28,7 +31,7 @@ public class GameManager : MonoBehaviour
     }
 
     public int GetScore()
-    {
+    {   
         return m_scoreManager.GetScore();
     }
 
@@ -42,4 +45,8 @@ public class GameManager : MonoBehaviour
         return m_playerManager.GetPlayerInfo();
     }
 
+    public void TrySceneManager(string p_sceneToLoad)
+    {
+        m_sceneManager.SceneLoader(p_sceneToLoad);
+    }    
 }

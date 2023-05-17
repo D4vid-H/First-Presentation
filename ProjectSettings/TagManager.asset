@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - CamAisleTrap
   - EnemyController
+  - MenuObject
   layers:
   - Default
   - TransparentFX

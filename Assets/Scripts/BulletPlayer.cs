@@ -25,7 +25,7 @@ public class BulletPlayer : MonoBehaviour
 
         transform.localPosition += m_speed * Time.deltaTime * transform.up;
     }
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {

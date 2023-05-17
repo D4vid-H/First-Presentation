@@ -41,13 +41,13 @@ public class EnemyGunThree : MonoBehaviour
             Debug.Log("Enemy THREE Dead");
             gameObject.GetComponent<Animator>().enabled = false;
             GameManager.Instance.AddScoreplayer(EnemyDeadScore());
-            Debug.Log(GameManager.Instance.GetScore());
             m_isDea = false;
         }
     }
     IEnumerator ShootDelay()
     {
         //Instanciar(class in prefab, position to Shoot, direccion to shoot, GO parent to shoot)
+        yield return new WaitForSeconds(1.5f);
         Instantiate(m_bulletToShoot, m_shootingPointLUp.position, Quaternion.Euler(90f, 0f, 0f), m_bulletParentL);
         Instantiate(m_bulletToShoot, m_shootingPointLDn.position, Quaternion.Euler(90f, 0f, 0f), m_bulletParentL);
         yield return new WaitForSeconds(0.5f);
