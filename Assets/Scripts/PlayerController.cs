@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Windows;
 using Cursor = UnityEngine.Cursor;
@@ -28,6 +29,11 @@ public class PlayerController : MonoBehaviour
     private Light m_lightColor;
     private Dictionary <string, PlayerData> m_playerDirectory = new Dictionary<string, PlayerData>();
     private float m_currentTimeToShoot;
+    private CapsuleCollider m_playerCollider;
+    private Vector3 m_centerStandUp;
+    private float m_heightStandUp;
+    private Vector3 m_centerStandDown;
+    private float m_heightStandDown;
 
     // Start is called before the first frame update
     private void Awake()
@@ -36,6 +42,11 @@ public class PlayerController : MonoBehaviour
         m_Sound = GetComponentInChildren<AudioSource>();
         m_currentHealtPlayer = m_healtPlayerFull;
         m_currentTimeToShoot = m_timeToShoot;
+        m_playerCollider = GetComponent<CapsuleCollider>();
+        m_centerStandUp = m_playerCollider.center;
+        m_heightStandUp = m_playerCollider.height;
+        m_centerStandDown = new Vector3(-0.0007503776f, 0.62358f, 0.00604f);
+        m_heightStandDown = 1.236531f;
     }
     // Update is called once per frame
     void Update()
@@ -47,6 +58,7 @@ public class PlayerController : MonoBehaviour
         PlayerDead();
         LightPower();
         JumpPlayer();        
+
     }
     private Vector3 GetMovementInput()
     {
@@ -63,7 +75,18 @@ public class PlayerController : MonoBehaviour
         m_anim.SetFloat("WalkFB", p_inputMovement.z);
         m_anim.SetFloat("WalkLR", p_inputMovement.x);
         m_anim.SetBool("RunF", Input.GetKey(KeyCode.LeftShift));
-        m_anim.SetBool("IdleCro", Input.GetKey(KeyCode.LeftControl));
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            m_anim.SetBool("IdleCro", true);
+            GetComponent<CapsuleCollider>().center = m_centerStandDown;
+            GetComponent<CapsuleCollider>().height = m_heightStandDown;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            m_anim.SetBool("IdleCro", false);
+            GetComponent<CapsuleCollider>().center = m_centerStandUp;
+            GetComponent<CapsuleCollider>().height = m_heightStandUp;
+        }
         
         if (Input.GetKey(KeyCode.LeftShift))
         {

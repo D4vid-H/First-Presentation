@@ -32,13 +32,13 @@ public class Bullets : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log(collision.gameObject.name);
+            //Debug.Log(collision.gameObject.name);
             m_hitPlayer.GetComponent<PlayerController>().HealtPlayer(m_damage);
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log(collision.gameObject.name);
+            //Debug.Log(collision.gameObject.name);
             Destroy(gameObject);
         }
     }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 67ccd190b506a57439aaf6189a75ed37
+guid: 232a42e1474befd42825b513cf3e6162
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,7 +33,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walk With Briefcase Right
+      name: Walk With Briefcase Left
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
