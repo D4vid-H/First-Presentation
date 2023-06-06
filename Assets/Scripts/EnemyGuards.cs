@@ -5,56 +5,58 @@ using UnityEngine.UIElements;
 
 public class EnemyGuards : Enemy
 {
-    //[SerializeField] private Transform m_target;
     [SerializeField] private Transform m_rayCastShoot;
     [SerializeField] private LayerMask m_layerMask;
     [SerializeField] private float m_rayCastDistance;
     [SerializeField] private float m_sphereCastRadius;
     [SerializeField] private Vector3 m_halfCast;
     [SerializeField] private float m_turningSpeed;
-    //public Animator m_anim;
-
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private HealtController m_healtControl;
+    //[SerializeField] private float m_helatNow;
+    
+    private void Awake()
     {
-
+        m_healtControl = new HealtController();
+        m_healtControl.SetHealt(HealtFull());
     }
-    // Update is called once per frame
+
+    private void Start()
+    {
+        m_healtControl.GetCurrentHealt();       
+    }
+
     void Update()
     {
         TargetOnRange();
     }
+
+    public delegate void ToDiscover();
+
+    public ToDiscover OnTargetRangeGuards;
+
     private void IsVisible()
-    {
-        //bool l_rayCast = Physics.BoxCast SphereCast(m_rayCastShoot.position, m_sphereCastRadius, m_rayCastShoot.forward,out RaycastHit l_rayHit ,m_rayCastDistance, m_layerMask);
+    {        
         bool l_rayCast = Physics.BoxCast(m_rayCastShoot.position, m_halfCast, m_rayCastShoot.forward, out RaycastHit l_rayHit, Quaternion.identity ,m_rayCastDistance, m_layerMask);
-        Debug.Log("Tirando Rayo1");
-        Debug.Log("Disparo?: " + l_rayCast);
 
         if (l_rayCast && l_rayHit.collider.tag == "Player")
         {
-            //Debug.Log("Rayo TRUE");
-            //Debug.Log(l_rayHit.collider.name);
-            //Debug.Log(l_rayHit.distance);
-            //Debug.Log(l_rayHit.rigidbody.name);
             PoursuitTarget();
         }
-
     }
 
     private void TargetOnRange()
     {
-        Debug.Log("Tirando Rayo2");
-        if ((m_target.position - transform.position).magnitude <= 15f)
+        if ((m_target.position - transform.position).magnitude <= m_inRange)
         {
-            Debug.Log("Corrutina-----");
+            Debug.Log("Target on Range");
+            OnTargetRangeGuards?.Invoke();
             StartCoroutine(Watch());
-        }
+        }        
     }
 
     IEnumerator Watch()
     {
-        Debug.Log("Tirando Rayo3");
+        Debug.Log("Tirando Rayo buscando al player");
         yield return new WaitForSeconds(1f);        
         IsVisible();
         var l_diffVector = m_target.position - transform.position;
@@ -64,43 +66,29 @@ public class EnemyGuards : Enemy
     }
 
     private void OnDrawGizmosSelected()
-    {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawLine(transform.position, m_rayCastShoot.forward);
-                
+    {                
         Gizmos.color = Color.green;        
         Gizmos.DrawWireCube(m_rayCastShoot.position, m_halfCast);
     }
 
-    protected override void PoursuitTarget()
-    {
-        base.PoursuitTarget();
-        //if ((m_target.position - transform.position).magnitude > 25f)
-        //{
-        //    Debug.Log("Walk");
-        //    base.PoursuitTarget();
-        //    m_anim.SetBool("walkF", true);
-        //}
-
-        //if ((m_target.position - transform.position).magnitude > 20f)
-        //{
-        //    Debug.Log("WalkFast");
-        //    var l_dir = (m_target.position - transform.position).normalized;
-        //    WalkFastCharacter(l_dir);
-        //}
-
-        //if ((m_target.position - transform.position).magnitude > 15f)
-        //{
-        //    Debug.Log("Run");
-        //    var l_dir = (m_target.position - transform.position).normalized;
-        //    RunCharacter(l_dir);
-        //}
-
-        //if ((m_target.position - transform.position).magnitude > 10f)
-        //{
-        //    Debug.Log("RunFast");
-        //    var l_dir = (m_target.position - transform.position).normalized;
-        //    RunFastCharacter(l_dir);
-        //}
+    public void TakeDamage(float p_damage)
+    {        
+        m_healtControl.TakeDamage(p_damage);
     }
+
+    public float CurrentHealt()
+    {
+        return m_healtControl.GetCurrentHealt();
+    }
+        
+    public void OnCollisionStay(Collision collision)
+    {
+        Debug.Log("Colicionado");
+        if(collision.collider.tag == "Player")
+        {
+            Debug.Log("Daño");
+            collision.gameObject.GetComponent<PlayerController>().HealtPlayer(10f);
+        }
+    }  
+
 }

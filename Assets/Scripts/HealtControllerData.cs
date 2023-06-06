@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/HealtCharacterData")]
 public class HealtControllerData : ScriptableObject
 {
-    [SerializeField] private float m_healtFull;
+    [SerializeField] public float m_healtFull;
 
     public float GetHealtFull()
     {

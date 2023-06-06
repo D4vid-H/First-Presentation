@@ -25,6 +25,7 @@ public class BulletPlayer : MonoBehaviour
 
         transform.localPosition += m_speed * Time.deltaTime * transform.up;
     }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -45,9 +46,14 @@ public class BulletPlayer : MonoBehaviour
             {
                 collision.gameObject.GetComponent<EnemyGunThree>().SetHealtEnemy(m_damage);
                 GameManager.Instance.AddScoreplayer(HitEnemy());
-                Debug.Log(GameManager.Instance.GetScore());
                 Destroy(gameObject);
             }
+        }
+        else if (collision.gameObject.CompareTag("EnemyGuards"))
+        {
+            collision.gameObject.GetComponent<EnemyGuards>().TakeDamage(m_damage);
+            GameManager.Instance.AddScoreplayer(HitEnemy());
+            Destroy(gameObject);
         }
         else
         {

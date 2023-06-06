@@ -3,47 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class HealtController
-{
-    [SerializeField] private HealtControllerData m_healtData;
-    private float m_currentHealt;
-
-    public HealtController(float p_healtFull) 
-    {
-        m_healtData.SetHealtFull(p_healtFull);
-        m_currentHealt = m_healtData.GetHealtFull();
-    }
-
-    public void TakeDamage(float p_damage)
-    {
-        m_currentHealt -= p_damage;
-    }
-
-    public void TakeHealt(float p_healt)
-    {
-        m_currentHealt += p_healt;
-    }
-
-    public float GetCurrentHealt() => m_currentHealt;
-    public float GetHealtFull() => m_healtData.GetHealtFull();
-}
-
 public class CharactersController : Entity
 {   
-    [SerializeField] protected float m_currentHealt;
+    [SerializeField] protected float m_Healt;
     [SerializeField] protected float m_scoreAdd;
-    [SerializeField] protected CharacterControlerDataMove m_speedMove;
+    [SerializeField] protected CharacterControlerDataMove m_speedMove;    
     [SerializeField] protected HealtControllerData m_healtFull;
     public Animator m_anim;
-    protected HealtController m_healtController;
-
-    private void Awake()
+    
+    public float HealtFull()
     {
-        m_healtController = new HealtController(m_healtFull.GetHealtFull());
+        return m_Healt = m_healtFull.GetHealtFull();
     }
-    protected float HealtCurrent()
+
+    public float HealtCurrent()
     {
-        return m_healtController.GetCurrentHealt();
+        Debug.Log("Esto es en CharacterController: " + m_Healt);
+        return m_Healt;
     }
 
     public void WalkCharacter(Vector3 p_direction)

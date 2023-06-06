@@ -53,8 +53,14 @@ public class EnemyGunTwo : MonoBehaviour
         m_healtEnemy -= p_danoPlayer;
         if (m_healtEnemy <= 0) m_isDea = true;
     }
-    public float GetHealtEnemy()
+    public float CurrentHealt()
     {
+        if (m_healtEnemy <= 0f)
+        {
+            float l_dead = 0f;
+            return l_dead;
+        }
+        Debug.Log(m_healtEnemy);
         return m_healtEnemy;
     }
     private int EnemyDeadScore()

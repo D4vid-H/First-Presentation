@@ -143,9 +143,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public float CurrentHealtPlayer()
-    {
-        float l_currentHealtToCanva;
-        l_currentHealtToCanva = m_currentHealtPlayer / m_healtPlayerFull;
+    {        
+        float l_currentHealtToCanva = m_currentHealtPlayer / m_healtPlayerFull;
         return l_currentHealtToCanva;
     }
 

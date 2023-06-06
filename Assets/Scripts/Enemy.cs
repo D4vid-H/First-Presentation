@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.UIElements;
 using UnityEngine;
+using System;
 
 public class Enemy : CharactersController
 {
-    //private CharactersController m_controllerCharacter;
+    
     //private HealtController m_healtController;
     [SerializeField] protected Transform m_target;
     [SerializeField] protected float m_distanceToChase;
+    [SerializeField] protected float m_inRange;
 
     private void Awake()
     {
-        //m_controllerCharacter = new CharactersController();        
+         
     }
     // Start is called before the first frame update
     void Start()
@@ -22,8 +24,13 @@ public class Enemy : CharactersController
     // Update is called once per frame
     void Update()
     {
-        
+        //TargetOnRange();
     }
+
+    //public delegate void ToDiscover();
+    //public ToDiscover OnTargetRange;
+
+    //public event Action<int> OnTargetRange;
 
     protected virtual void PoursuitTarget()
     {
@@ -65,5 +72,15 @@ public class Enemy : CharactersController
     {
         m_target = p_target;
     }
+
+    //private void TargetOnRange()
+    //{
+    //    if ((m_target.position - transform.position).magnitude <= m_inRange)
+    //    {
+    //        Debug.Log("Evento 1");
+    //        OnTargetRange?.Invoke();
+    //    }
+    //}
+
 
 }
