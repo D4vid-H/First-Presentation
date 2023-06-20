@@ -15,6 +15,8 @@ public class CanvasManager : MonoBehaviour
     [SerializeField] private Slider m_healtPlayerSlaider;
     [SerializeField] private Slider m_healtEnemySlaider;
     [SerializeField] private PlayerController m_playerController;
+    [SerializeField] private Enemy m_enemy;
+    [SerializeField] private MechaController m_Boss;
     [SerializeField] private EnemyGuards m_enemyGuards;
     [SerializeField] private EnemyGunOne m_enemyGunOne;
     [SerializeField] private EnemyGunTwo m_enemyGunTwo;
@@ -25,9 +27,11 @@ public class CanvasManager : MonoBehaviour
     {
         m_textNameEnemy.enabled = false;
         m_healtEnemySlaider.gameObject.SetActive(false);
-        m_enemyGuards.OnTargetRangeGuards += OnScreenHealtEnemy;
+        m_enemy.OnTargetRangeGuards += OnScreenHealtEnemy;
+        m_enemy.DiedGuards += OffScreenHealtEnemy;
         m_enemyGunController.OnTargetRange += OnScreenHealtEnemy;
         m_enemyGunController.DeadEnemy += OffScreenHealtEnemy;
+        m_Boss.Activate.AddListener(OnScreenHealtEnemy);
     }
     // Update is called once per frame
     void Update()
@@ -64,44 +68,54 @@ public class CanvasManager : MonoBehaviour
 
     private void CurrentHealtEnemy()
     {
-        if (m_enemyGuards.CurrentHealt() != 100)
+        if (m_enemyGuards.CurrentHealt() != 1)
         {
-            Debug.Log("Resto vida al enemyGuard");
             m_healtEnemySlaider.value = m_enemyGuards.CurrentHealt();
-            Debug.Log("Valor" + m_healtEnemySlaider.value);
+            if (m_textNameEnemy.enabled == true) 
+            {
+                m_textNameEnemy.text = m_enemyGuards.GetNameEntity();
+            }
         }
-        if (m_enemyGunOne.CurrentHealt() != 100)
+        if (m_enemyGunOne.CurrentHealt() != 1)
         {
-            Debug.Log("Resto vida al enemyGun1");
-            Debug.Log("viene del enemy "+m_enemyGunOne.CurrentHealt());
             m_healtEnemySlaider.value = m_enemyGunOne.CurrentHealt();
-            Debug.Log("Valor" + m_healtEnemySlaider.value);
+            if (m_textNameEnemy.enabled == true)
+            {
+                m_textNameEnemy.text = m_enemyGunOne.GetName();
+            }
         }
-        if (m_enemyGunTwo.CurrentHealt() != 100)
+        if (m_enemyGunTwo.CurrentHealt() != 1)
         {
-            Debug.Log("Resto vida al enemyGun2");
-            Debug.Log("viene del enemy " + m_enemyGunTwo.CurrentHealt());
             m_healtEnemySlaider.value = m_enemyGunTwo.CurrentHealt();
-            Debug.Log("Valor" + m_healtEnemySlaider.value);
+            if (m_textNameEnemy.enabled == true)
+            {
+                m_textNameEnemy.text = m_enemyGunTwo.GetName();
+            }
         }
-        if (m_enemyGunThree.CurrentHealt() != 100)
+        if (m_enemyGunThree.CurrentHealt() != 1)
         {
-            Debug.Log("Resto vida al enemyGu3");
-            Debug.Log("viene del enemy " + m_enemyGunThree.CurrentHealt());
             m_healtEnemySlaider.value = m_enemyGunThree.CurrentHealt();
-            Debug.Log("Valor" + m_healtEnemySlaider.value);
-        }        
+            if (m_textNameEnemy.enabled == true)
+            {
+                m_textNameEnemy.text = m_enemyGunThree.GetName();
+            }
+        }
+        if (m_Boss.CurrentHealt() != 1)
+        {
+            m_healtEnemySlaider.value = m_Boss.CurrentHealt();
+            if (m_textNameEnemy.enabled == true)
+            {
+                m_textNameEnemy.text = m_Boss.GetName();
+            }
+        }
     }
-
     private void OnScreenHealtEnemy()
     {
-        Debug.Log("Entre al OnScreen");
         m_textNameEnemy.enabled = true;
         m_healtEnemySlaider.gameObject.SetActive(true);
     }
     private void OffScreenHealtEnemy()
     {
-        Debug.Log("Entre al OffScreen");
         m_textNameEnemy.enabled = false;
         m_healtEnemySlaider.gameObject.SetActive(false);
     }

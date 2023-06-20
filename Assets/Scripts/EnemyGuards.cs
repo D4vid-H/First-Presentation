@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ public class EnemyGuards : Enemy
 
     private void Start()
     {
-        m_healtControl.GetCurrentHealt();       
+        m_healtControl.GetCurrentHealt();
     }
 
     void Update()
@@ -30,19 +31,10 @@ public class EnemyGuards : Enemy
         TargetOnRange();
     }
 
-    public delegate void ToDiscover();
-
-    public ToDiscover OnTargetRangeGuards;
-
-    private void IsVisible()
-    {        
-        bool l_rayCast = Physics.BoxCast(m_rayCastShoot.position, m_halfCast, m_rayCastShoot.forward, out RaycastHit l_rayHit, Quaternion.identity ,m_rayCastDistance, m_layerMask);
-
-        if (l_rayCast && l_rayHit.collider.tag == "Player")
-        {
-            PoursuitTarget();
-        }
-    }
+    //public delegate void ToDiscover();
+    //public ToDiscover OnTargetRangeGuards;
+    //public delegate void ToDied();
+    //public ToDied DiedGuards;
 
     private void TargetOnRange()
     {
@@ -51,18 +43,28 @@ public class EnemyGuards : Enemy
             Debug.Log("Target on Range");
             OnTargetRangeGuards?.Invoke();
             StartCoroutine(Watch());
+            m_anim.SetBool("walkF", true);
         }        
     }
 
     IEnumerator Watch()
     {
         Debug.Log("Tirando Rayo buscando al player");
-        yield return new WaitForSeconds(1f);        
+        yield return new WaitForSeconds(1f);              
         IsVisible();
         var l_diffVector = m_target.position - transform.position;
         Quaternion l_newRotation = Quaternion.LookRotation(l_diffVector.normalized);
         transform.rotation = Quaternion.Lerp(transform.rotation, l_newRotation, Time.deltaTime * m_turningSpeed);
 
+    }
+    private void IsVisible()
+    {        
+        bool l_rayCast = Physics.BoxCast(m_rayCastShoot.position, m_halfCast, m_rayCastShoot.forward, out RaycastHit l_rayHit, Quaternion.identity ,m_rayCastDistance, m_layerMask);
+       
+        if (l_rayCast && l_rayHit.collider.tag == "Player")
+        {
+            PoursuitTarget();
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -78,16 +80,17 @@ public class EnemyGuards : Enemy
 
     public float CurrentHealt()
     {
-        return m_healtControl.GetCurrentHealt();
+        var l_healPercent = m_healtControl.GetCurrentHealt() / m_healtControl.GetHealtFull();
+        return l_healPercent;
     }
         
     public void OnCollisionStay(Collision collision)
-    {
-        Debug.Log("Colicionado");
+    {        
         if(collision.collider.tag == "Player")
         {
-            Debug.Log("Daño");
-            collision.gameObject.GetComponent<PlayerController>().HealtPlayer(10f);
+            collision.gameObject.GetComponent<PlayerController>().HealtPlayer(55f);
+            DiedGuards?.Invoke();
+            Destroy(gameObject);
         }
     }  
 

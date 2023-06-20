@@ -47,13 +47,18 @@ public class BulletPlayer : MonoBehaviour
                 collision.gameObject.GetComponent<EnemyGunThree>().SetHealtEnemy(m_damage);
                 GameManager.Instance.AddScoreplayer(HitEnemy());
                 Destroy(gameObject);
-            }
+            }            
         }
         else if (collision.gameObject.CompareTag("EnemyGuards"))
         {
             collision.gameObject.GetComponent<EnemyGuards>().TakeDamage(m_damage);
             GameManager.Instance.AddScoreplayer(HitEnemy());
             Destroy(gameObject);
+        }
+        else if (collision.gameObject.CompareTag("Boss"))
+        {
+            collision.gameObject.GetComponent<MechaController>().SetHealtEnemy(m_damage);
+            GameManager.Instance.AddScoreplayer(HitBoss());
         }
         else
         {
@@ -66,4 +71,10 @@ public class BulletPlayer : MonoBehaviour
         return l_hit;
     }
 
+    private int HitBoss()
+    {
+        int l_hit = 27;
+        return l_hit;
+    }
+    
 }

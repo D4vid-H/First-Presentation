@@ -15,6 +15,12 @@ TagManager:
   - MenuObject
   - PointPatrols
   - EnemyGuards
+  - CamFirstPerson
+  - HealtSphere
+  - MagicDoor
+  - ArrivalBoss
+  - Boss
+  - Enviroments
   layers:
   - Default
   - TransparentFX

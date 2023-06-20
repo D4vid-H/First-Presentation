@@ -6,31 +6,14 @@ using System;
 
 public class Enemy : CharactersController
 {
-    
-    //private HealtController m_healtController;
     [SerializeField] protected Transform m_target;
     [SerializeField] protected float m_distanceToChase;
     [SerializeField] protected float m_inRange;
 
-    private void Awake()
-    {
-         
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        //TargetOnRange();
-    }
-
-    //public delegate void ToDiscover();
-    //public ToDiscover OnTargetRange;
-
-    //public event Action<int> OnTargetRange;
+    public delegate void ToDiscover();
+    public ToDiscover OnTargetRangeGuards;
+    public delegate void ToDied();
+    public ToDied DiedGuards;
 
     protected virtual void PoursuitTarget()
     {
@@ -72,15 +55,4 @@ public class Enemy : CharactersController
     {
         m_target = p_target;
     }
-
-    //private void TargetOnRange()
-    //{
-    //    if ((m_target.position - transform.position).magnitude <= m_inRange)
-    //    {
-    //        Debug.Log("Evento 1");
-    //        OnTargetRange?.Invoke();
-    //    }
-    //}
-
-
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyGunController : MonoBehaviour
 {
@@ -33,14 +34,17 @@ public class EnemyGunController : MonoBehaviour
         {
             case "EnemyOne":
                 p_enemy.GetComponent<EnemyGunOne>().enabled = true;
+                p_enemy.GetComponent<Collider>().enabled = true;
                 p_enemy.GetComponent<Animator>().enabled = true;
                 break;
             case "EnemyTwo":
                 p_enemy.GetComponent<EnemyGunTwo>().enabled = true;
+                p_enemy.GetComponent<Collider>().enabled = true;
                 p_enemy.GetComponent<Animator>().enabled = true;
                 break;
             case "EnemyThree":
                 p_enemy.GetComponent<EnemyGunThree>().enabled = true;
+                p_enemy.GetComponent<Collider>().enabled = true;
                 p_enemy.GetComponent<Animator>().enabled = true;
                 break;
         }
@@ -57,31 +61,32 @@ public class EnemyGunController : MonoBehaviour
 
     public ToDiscover OnTargetRange;
     public ToDead DeadEnemy;
+    public UnityEvent FireEventOne;
+    public UnityEvent FireEventTwo;
+    public UnityEvent FireEventThree;
 
     private void EnemyActive()
     {
         if (m_isShoot)
         {
             m_enemyActive = m_enemys[RandomEnemy()];
-            OnTargetRange?.Invoke();
-            Debug.Log(m_enemyActive.gameObject.name);
             if (m_enemyActive.gameObject.name == "EnemyOne" && (m_enemyActive.GetComponent<EnemyGunOne>().CurrentHealt() > 0))
             {
                 EnemySelect(m_enemyActive);
-                Debug.Log("Activo el canvas 1");
-                //OnTargetRange?.Invoke();
+                OnTargetRange?.Invoke();
+                FireEventOne?.Invoke();
             }
             else if (m_enemyActive.gameObject.name == "EnemyTwo" && (m_enemyActive.GetComponent<EnemyGunTwo>().CurrentHealt() > 0))
             {
                 EnemySelect(m_enemyActive);
-                Debug.Log("Activo el canvas 2");
-                //OnTargetRange?.Invoke();
+                OnTargetRange?.Invoke();
+                FireEventTwo?.Invoke();
             }
             else if (m_enemyActive.gameObject.name == "EnemyThree" && (m_enemyActive.GetComponent<EnemyGunThree>().CurrentHealt() > 0))
             {
                 EnemySelect(m_enemyActive);
-                Debug.Log("Activo el canvas 3");
-                //OnTargetRange?.Invoke();
+                OnTargetRange?.Invoke();
+                FireEventThree?.Invoke();
             }
             m_isShoot = false;
         }
@@ -91,23 +96,19 @@ public class EnemyGunController : MonoBehaviour
     {
         if (!m_isShoot && m_enemyActive)
         {
-            //DeadEnemy?.Invoke();
             if (m_enemyActive.TryGetComponent<EnemyGunOne>(out EnemyGunOne l_enemyOne) && l_enemyOne.CurrentHealt() <= 0)
             {
                 m_isShoot = true;
-                Debug.Log("Aca activo para que se vaya los datos de la pantalla ");
                 DeadEnemy?.Invoke();
             }
             if (m_enemyActive.TryGetComponent<EnemyGunTwo>(out EnemyGunTwo l_enemyTwo) && l_enemyTwo.CurrentHealt() <= 0)
             {
                 m_isShoot = true;
-                Debug.Log("Aca activo para que se vaya los datos de la pantalla ");
                 DeadEnemy?.Invoke();
             }
             if (m_enemyActive.TryGetComponent<EnemyGunThree>(out EnemyGunThree l_enemyThree) && l_enemyThree.CurrentHealt() <= 0)
             {
                 m_isShoot = true;
-                Debug.Log("Aca activo para que se vaya los datos de la pantalla ");
                 DeadEnemy?.Invoke();
             }
         }

@@ -1,7 +1,9 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Windows;
 using Cursor = UnityEngine.Cursor;
 using Input = UnityEngine.Input;
@@ -24,7 +26,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator m_anim;
     [SerializeField] private float m_jumpForce;    
     [SerializeField] private int m_ammunitionClip;
+    [SerializeField] private GameObject m_camFirst;
     private float speedRun;
+    private float m_heightStandDown;
     private AudioSource m_Sound;
     private Light m_lightColor;
     private Dictionary <string, PlayerData> m_playerDirectory = new Dictionary<string, PlayerData>();
@@ -33,7 +37,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 m_centerStandUp;
     private float m_heightStandUp;
     private Vector3 m_centerStandDown;
-    private float m_heightStandDown;
 
     // Start is called before the first frame update
     private void Awake()
@@ -48,6 +51,12 @@ public class PlayerController : MonoBehaviour
         m_centerStandDown = new Vector3(-0.0007503776f, 0.62358f, 0.00604f);
         m_heightStandDown = 1.236531f;
     }
+
+    private void Start()
+    {
+        m_camFirst.SetActive(false);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -57,8 +66,8 @@ public class PlayerController : MonoBehaviour
         ShootGun();
         PlayerDead();
         LightPower();
-        JumpPlayer();        
-
+        JumpPlayer();
+        ToChangeFirstToThird();
     }
     private Vector3 GetMovementInput()
     {
@@ -139,7 +148,11 @@ public class PlayerController : MonoBehaviour
 
     public void HealtPlayer(float p_danoEnemy)
     {
-        m_currentHealtPlayer -= p_danoEnemy;       
+        m_currentHealtPlayer -= p_danoEnemy;
+        if(m_currentHealtPlayer > m_healtPlayerFull)
+        {
+            m_currentHealtPlayer = m_healtPlayerFull;            
+        }        
     }
 
     public float CurrentHealtPlayer()
@@ -221,5 +234,50 @@ public class PlayerController : MonoBehaviour
             m_anim.SetBool("Jump", false);
         }
     }
-    
+    private void ToChangeFirstToThird()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            ActiveCamShoot();
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            DesactiveCamShoot();
+        }
+    }
+
+    private void ActiveCamShoot()
+    {
+        m_camFirst.SetActive(true);
+    }
+    private void DesactiveCamShoot()
+    {
+        m_camFirst.SetActive(false);
+    }
+
+    public UnityEvent BossOnLine;
+
+    void OnTriggerStay(Collider other)
+    {
+        Debug.Log("entro al collider");
+        if (other.gameObject.tag == "HealtSphere")
+        {
+            Debug.Log("entro al healt");
+            if (m_currentHealtPlayer != m_healtPlayerFull)
+            {
+                Debug.Log("curo vida");
+                HealtPlayer(-10f);                
+            }            
+        }
+        if(other.gameObject.tag == "MagicDoor")
+        {
+            transform.position = new Vector3(-11.90f, 0.165f, 0.78f);
+        }
+        if (other.gameObject.tag == "ArrivalBoss")
+        {
+            Debug.Log("Despestar al Boss");
+            BossOnLine?.Invoke();
+        }
+    }
+
 }

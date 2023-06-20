@@ -9,7 +9,7 @@ public class CharactersController : Entity
     [SerializeField] protected float m_scoreAdd;
     [SerializeField] protected CharacterControlerDataMove m_speedMove;    
     [SerializeField] protected HealtControllerData m_healtFull;
-    public Animator m_anim;
+    [SerializeField] public Animator m_anim;
     
     public float HealtFull()
     {

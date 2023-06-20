@@ -26,19 +26,18 @@ public class Bullets : MonoBehaviour
             Destroy(gameObject);
         }
 
-        transform.localPosition += m_speed * Time.deltaTime * transform.up;        
+        transform.position += m_speed * Time.deltaTime * (m_hitPlayer.transform.position - transform.position).normalized;
+        transform.LookAt(m_hitPlayer.transform.position);
     }
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //Debug.Log(collision.gameObject.name);
             m_hitPlayer.GetComponent<PlayerController>().HealtPlayer(m_damage);
             Destroy(gameObject);
         }
         else
         {
-            //Debug.Log(collision.gameObject.name);
             Destroy(gameObject);
         }
     }

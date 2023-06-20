@@ -5,19 +5,29 @@ using UnityEngine;
 
 public class EnemyGunOne : MonoBehaviour
 {
+    [SerializeField] private string m_name;
     [SerializeField] private Transform m_target;
     [SerializeField] private Bullets m_bulletToShoot;
     [SerializeField] private Transform m_shootingPoint;
     [SerializeField] private Transform m_bulletParent;
     [SerializeField] private float m_delayShootBullets = 10f;
-    [SerializeField] private float m_healtEnemy;
+    private float m_healtEnemy;
+    [SerializeField] private float m_healtFullEnemy;
+    [SerializeField] private ParticleSystem m_particleSystem;
+    [SerializeField] private ParticleSystem m_particleSystemDead;
+    [SerializeField] private EnemyGunController m_enemyGunController;
     private float m_currentTime;
-    private Boolean m_isDea;
+    private Boolean m_isDea = false;
+    
 
     private void Awake()
     {
         m_currentTime = m_delayShootBullets;
         m_isDea = false;
+        m_healtEnemy = m_healtFullEnemy;
+        m_enemyGunController.FireEventOne.AddListener(ParticlesOn) ;
+        m_particleSystem.gameObject.SetActive(false);
+        m_particleSystemDead.gameObject.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -33,7 +43,11 @@ public class EnemyGunOne : MonoBehaviour
             Debug.Log("Enemy ONE Dead");
             gameObject.GetComponent<Animator>().enabled = false;
             GameManager.Instance.AddScoreplayer(EnemyDeadScore());
-            m_isDea = false;            
+            m_particleSystem.gameObject.SetActive(false);
+            m_particleSystemDead.gameObject.SetActive(true);
+            m_isDea = false;
+            StartCoroutine(DeadEnemyGun());
+
         }
     }
     IEnumerator ShootDelay()
@@ -53,17 +67,39 @@ public class EnemyGunOne : MonoBehaviour
     }
     public float CurrentHealt()
     {
+        var l_currentHealt = m_healtEnemy / m_healtFullEnemy;
         if (m_healtEnemy <= 0f)
         {
             float l_dead = 0f;
             return l_dead;
-        }
-        Debug.Log(m_healtEnemy);
-        return m_healtEnemy;
+        }        
+        return l_currentHealt;
+    }
+
+    public string GetName()
+    {
+        return m_name;
     }
     private int EnemyDeadScore()
     {
         int l_score = 100;
         return l_score;
+    }
+
+    private void ParticlesOn()
+    {
+        //var l_particleSystem = GameObject.FindGameObjectWithTag("FireSysPart");
+        //if(l_particleSystem != null)
+        //{
+        //    l_particleSystem.SetActive = true;
+        //}
+        Debug.Log("SystemParticle");
+        m_particleSystem.gameObject.SetActive (true);
+    }
+
+    IEnumerator DeadEnemyGun()
+    {
+        yield return new WaitForSeconds(0.4f);
+        Destroy(gameObject);
     }
 }

@@ -51,6 +51,7 @@ public class HealtController
     }
 
     public float GetCurrentHealt() => m_currentHealt;
+    public float GetHealtFull() => m_Healt;
 
     public void IsDead()
     {
